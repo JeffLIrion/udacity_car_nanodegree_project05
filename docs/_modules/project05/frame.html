@@ -1,0 +1,890 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>project05.frame &mdash; Documentation for Project 5 Code 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Documentation for Project 5 Code 1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Documentation for Project 5 Code
+          
+
+          
+            
+            <img src="../../_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Documentation for Project 5 Code</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../project05.html">project05 package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Documentation for Project 5 Code</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>project05.frame</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for project05.frame</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">skimage.feature</span> <span class="k">import</span> <span class="n">hog</span>
+<span class="kn">from</span> <span class="nn">scipy.ndimage.measurements</span> <span class="k">import</span> <span class="n">label</span>
+
+<span class="c1">#import PIL</span>
+<span class="c1">#from PIL import ImageFont</span>
+<span class="c1">#from PIL import Image</span>
+<span class="c1">#from PIL import ImageDraw</span>
+
+<span class="c1">#import image</span>
+
+
+
+
+
+
+<div class="viewcode-block" id="convert_color"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.convert_color">[docs]</a><span class="k">def</span> <span class="nf">convert_color</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cspace</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cspace0</span><span class="o">=</span><span class="s1">&#39;BGR&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert ``img`` to colorspace ``cspace``</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    img : numpy.ndarray</span>
+<span class="sd">        The image</span>
+<span class="sd">    cspace : str, None</span>
+<span class="sd">        The image will be converted to this colorspace (e.g., &#39;BGR&#39;)</span>
+<span class="sd">    cspace0 : str</span>
+<span class="sd">        The colorspace that ``img`` is currently in</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        The image in the specified colorspace</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">cspace</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cspace</span> <span class="o">!=</span> <span class="n">cspace0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">eval</span><span class="p">(</span><span class="s1">&#39;cv2.cvtColor(img, cv2.COLOR_</span><span class="si">{0}</span><span class="s1">2</span><span class="si">{1}</span><span class="s1">)&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cspace0</span><span class="p">,</span> <span class="n">cspace</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">img</span></div>
+
+
+<span class="c1"># ======================================== #</span>
+<span class="c1">#                                          #</span>
+<span class="c1">#              `Frame` class               #</span>
+<span class="c1">#                                          #</span>
+<span class="c1"># ======================================== #</span>
+
+
+<div class="viewcode-block" id="Frame"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame">[docs]</a><span class="k">class</span> <span class="nc">Frame</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">imgpath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">min_row</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_row</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">spatial_cspace</span><span class="o">=</span><span class="s1">&#39;BGR&#39;</span><span class="p">,</span> <span class="n">hist_cspace</span><span class="o">=</span><span class="s1">&#39;BGR&#39;</span><span class="p">,</span> <span class="n">hog_cspace</span><span class="o">=</span><span class="s1">&#39;BGR&#39;</span><span class="p">,</span>
+                 <span class="n">spatial_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">hist_bins</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">hist_range</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span> <span class="n">hog_orientations</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">hog_pix_per_cell</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">hog_cell_per_block</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">hog_cells_per_step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                 <span class="n">hog_block_norm</span><span class="o">=</span><span class="s1">&#39;L1&#39;</span><span class="p">,</span> <span class="n">hog_channel</span><span class="o">=</span><span class="s1">&#39;ALL&#39;</span><span class="p">,</span> <span class="n">spatial_feat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hist_feat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hog_feat</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">heat_thresh</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">prev</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prev_thresh</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize a ``Frame`` object</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        img : numpy.ndarray, None</span>
+<span class="sd">            The image from which we are finding cars</span>
+<span class="sd">        imgpath : str, None</span>
+<span class="sd">            The path to the ``img`` image</span>
+<span class="sd">        min_row : int</span>
+<span class="sd">            We will search for cars in the image between ``min_row`` and ``max_row``</span>
+<span class="sd">        max_row : int, None</span>
+<span class="sd">            We will search for cars in the image between ``min_row`` and ``max_row``</span>
+<span class="sd">        scale : float</span>
+<span class="sd">            The image will be rescaled by 1/``scale``</span>
+<span class="sd">        spatial_cspace : str</span>
+<span class="sd">            The colorspace used for extracting spatial color features</span>
+<span class="sd">        hist_cspace : str</span>
+<span class="sd">            The colorspace used for extracting color histogram features</span>
+<span class="sd">        hog_cspace : str</span>
+<span class="sd">            The colorspace used for extracting HOG features</span>
+<span class="sd">        spatial_size : int</span>
+<span class="sd">            For `bin_spatial`, the image will be resized to ``(spatial_size, spatial_size)``</span>
+<span class="sd">        hist_bins : int</span>
+<span class="sd">            The number of bins for the histogram in `color_hist`</span>
+<span class="sd">        hist_range : tuple, list</span>
+<span class="sd">            The lower and upper range of the bins in `color_hist`</span>
+<span class="sd">        hog_orientations : int</span>
+<span class="sd">            Number of orientation bins for `get_hog_features`</span>
+<span class="sd">        hog_pix_per_cell : int</span>
+<span class="sd">            The size of a cell is ``(pix_per_cell, pix_per_cell)`` for `get_hog_features`</span>
+<span class="sd">        hog_cell_per_block : int</span>
+<span class="sd">            There are ``(cell_per_block, cell_per_block)`` cells in each block for `get_hog_features`</span>
+<span class="sd">        hog_cells_per_step : int</span>
+<span class="sd">            Each HOG window is translated by ``hog_cells_per_step`` cells</span>
+<span class="sd">        hog_block_norm : str {&#39;L1&#39;, &#39;L1-sqrt&#39;, &#39;L2&#39;, &#39;L2-Hys&#39;}</span>
+<span class="sd">            Block normalization method for `get_hog_features`</span>
+<span class="sd">        hog_channel : int, &#39;ALL&#39;</span>
+<span class="sd">            The image channel for which we are getting HOG features for `get_hog_features`</span>
+<span class="sd">        spatial_feat : bool</span>
+<span class="sd">            Use spatial color features</span>
+<span class="sd">        hist_feat : bool</span>
+<span class="sd">            Use color histogram features</span>
+<span class="sd">        hog_feat : bool</span>
+<span class="sd">            Use HOG features</span>
+<span class="sd">        heat_thresh : int</span>
+<span class="sd">            Entries in the ``self.heatmap`` that are less than ``heat_thresh`` are deemed noise</span>
+<span class="sd">        prev : list, None</span>
+<span class="sd">            A list of the last `Frame` objects (`self.prev[0]` is the one immediately before)</span>
+<span class="sd">        prev_thresh : int</span>
+<span class="sd">            A threshold value when using previous vehicle detections</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">img</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">imgpath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;`img` or `imgpath` must be specified&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">_img</span> <span class="o">=</span> <span class="n">img</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imgpath</span> <span class="o">=</span> <span class="n">imgpath</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+        
+        <span class="c1"># colorspace parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial_cspace</span> <span class="o">=</span> <span class="n">spatial_cspace</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hist_cspace</span> <span class="o">=</span> <span class="n">hist_cspace</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hog_cspace</span> <span class="o">=</span> <span class="n">hog_cspace</span>
+        
+        <span class="c1"># image size parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_row</span> <span class="o">=</span> <span class="n">max_row</span> <span class="k">if</span> <span class="n">max_row</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">min_row</span> <span class="o">=</span> <span class="n">min_row</span>
+        
+        <span class="c1"># spatial color parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial_size</span> <span class="o">=</span> <span class="n">spatial_size</span>
+        
+        <span class="c1"># color histogram parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hist_bins</span> <span class="o">=</span> <span class="n">hist_bins</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hist_range</span> <span class="o">=</span> <span class="n">hist_range</span>
+        
+        <span class="c1"># HOG parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hog_orientations</span> <span class="o">=</span> <span class="n">hog_orientations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span> <span class="o">=</span> <span class="n">hog_pix_per_cell</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span> <span class="o">=</span> <span class="n">hog_cell_per_block</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hog_cells_per_step</span> <span class="o">=</span> <span class="n">hog_cells_per_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hog_block_norm</span> <span class="o">=</span> <span class="n">hog_block_norm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hog_channel</span> <span class="o">=</span> <span class="n">hog_channel</span>
+        
+        <span class="c1"># which features should be used?</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">spatial_feat</span> <span class="o">=</span> <span class="n">spatial_feat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hist_feat</span> <span class="o">=</span> <span class="n">hist_feat</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hog_feat</span> <span class="o">=</span> <span class="n">hog_feat</span>
+        
+        <span class="c1"># post-processing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">car_bboxes</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heatmap</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heat_thresh</span> <span class="o">=</span> <span class="n">heat_thresh</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev</span> <span class="o">=</span> <span class="n">prev</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prev_thresh</span> <span class="o">=</span> <span class="n">prev_thresh</span>
+        
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a nicely formatted string containing all the parameters for the ``Frame``</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;`Frame` object&#39;</span>
+        <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;=&#39;</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">description</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+        
+        <span class="c1"># image size</span>
+        <span class="n">rows0</span><span class="p">,</span> <span class="n">cols0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_row</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_row</span> <span class="o">==</span> <span class="n">rows0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">==</span> <span class="mf">1.</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;The image is </span><span class="si">{0}</span><span class="s1"> x </span><span class="si">{1}</span><span class="se">\n\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cols0</span><span class="p">,</span> <span class="n">rows0</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;The original image is </span><span class="si">{0}</span><span class="s1"> x </span><span class="si">{1}</span><span class="se">\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cols0</span><span class="p">,</span> <span class="n">rows0</span><span class="p">)</span>
+            
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_row</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_row</span> <span class="o">!=</span> <span class="n">rows0</span><span class="p">:</span>
+                <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;We only analyze rows </span><span class="si">{0}</span><span class="s1"> to </span><span class="si">{1}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min_row</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_row</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">!=</span> <span class="mf">1.</span><span class="p">:</span>
+                <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;We downsize the image by a factor of </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+                
+            <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;The new image is </span><span class="si">{0}</span><span class="s1"> x </span><span class="si">{1}</span><span class="se">\n\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_feat</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Spatial color parameters</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;------------------------</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Colorspace for spatial color features:  </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_cspace</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Resized image size:  (</span><span class="si">{0}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1">)</span><span class="se">\n\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Spatial color features not used</span><span class="se">\n\n\n</span><span class="s1">&#39;</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_feat</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Color histogram parameters</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;--------------------------</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Colorspace for color histogram features:  </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_cspace</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Number of histogram bins: </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_bins</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Range of histogram bins:  (</span><span class="si">{0}</span><span class="s1">, </span><span class="si">{1}</span><span class="s1">)</span><span class="se">\n\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Color histogram features not used</span><span class="se">\n\n\n</span><span class="s1">&#39;</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_feat</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;HOG parameters</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;--------------</span><span class="se">\n</span><span class="s1">&#39;</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Colorspace for HOG features:  </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_cspace</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Number of orientations:  </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_orientations</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Pixels per cell:  (</span><span class="si">{0}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1">)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Cells per block:  (</span><span class="si">{0}</span><span class="s1">, </span><span class="si">{0}</span><span class="s1">)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Cells per step:  </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_cells_per_step</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;Block normalization method:  </span><span class="si">{0}</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_block_norm</span><span class="p">)</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;HOG channel(s) used:  </span><span class="si">{0}</span><span class="se">\n\n\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_channel</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">description</span> <span class="o">+=</span> <span class="s1">&#39;HOG features not used</span><span class="se">\n\n\n</span><span class="s1">&#39;</span>
+            
+        <span class="c1">#description += &#39;Post-processing parameters\n&#39;</span>
+        <span class="c1">#description += &#39;--------------------------\n&#39;</span>
+        <span class="c1">#description += &#39;Previous heatmaps used for car detection:  {0}\n&#39;.format(&#39;None&#39; if self.prev is None else len(self.prev))</span>
+        <span class="c1">#description += &#39;Heatmap threshold:  {0}\n&#39;.format(self.heat_thresh)</span>
+            
+        <span class="k">return</span> <span class="n">description</span>
+    
+<div class="viewcode-block" id="Frame.load_img"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.load_img">[docs]</a>    <span class="k">def</span> <span class="nf">load_img</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Load a ``Frame`` object&#39;s associated image</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">imgpath</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span></div>
+            
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">img0</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a ``Frame`` object&#39;s original associated image</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The ``Frame`` object&#39;s original image</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_img</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_img</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imgpath</span><span class="p">)</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">img</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a ``Frame`` object&#39;s rescaled associated image</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The ``Frame`` object&#39;s rescaled image</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">!=</span> <span class="mf">1.</span><span class="p">:</span>
+            <span class="n">img0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">min_row</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">max_row</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+            <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="n">img0</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img0</span><span class="p">,</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">cols</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">rows</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">min_row</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">max_row</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+                
+<div class="viewcode-block" id="Frame.draw_bboxes"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.draw_bboxes">[docs]</a>    <span class="k">def</span> <span class="nf">draw_bboxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bbox_list</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span> <span class="n">thickness</span><span class="o">=</span><span class="mi">6</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Draw boxes on the ``Frame`` object&#39;s image</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        bbox_list : list</span>
+<span class="sd">            A list of ``((x1, y1), (x2, y2))`` coordinates for drawing boxes</span>
+<span class="sd">        color : tuple</span>
+<span class="sd">            The color that the boxes should be drawn</span>
+<span class="sd">        thickness : int</span>
+<span class="sd">            Thickness of lines that make up the rectangle</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        draw_img : numpy.ndarray</span>
+<span class="sd">            The image with boxes drawn on it</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">draw_img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span>
+
+        <span class="c1"># draw each bounding box on your image copy using cv2.rectangle(</span>
+        <span class="k">for</span> <span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span> <span class="ow">in</span> <span class="n">bbox_list</span><span class="p">:</span>
+            <span class="n">cv2</span><span class="o">.</span><span class="n">rectangle</span><span class="p">(</span><span class="n">draw_img</span><span class="p">,</span> <span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">),</span> <span class="n">color</span><span class="p">,</span> <span class="n">thickness</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">draw_img</span></div>
+
+    <span class="c1"># ======================================== #</span>
+    <span class="c1">#                                          #</span>
+    <span class="c1">#        Single feature extraction         #</span>
+    <span class="c1">#                                          #</span>
+    <span class="c1"># ======================================== #</span>
+
+<div class="viewcode-block" id="Frame.bin_spatial"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.bin_spatial">[docs]</a>    <span class="k">def</span> <span class="nf">bin_spatial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">cspace0</span><span class="o">=</span><span class="s1">&#39;BGR&#39;</span><span class="p">,</span> <span class="n">visualize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute binned color features</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        img : numpy.ndarray</span>
+<span class="sd">            The image for which we are computing features</span>
+<span class="sd">        cspace0 : str</span>
+<span class="sd">            The colorspace that ``img`` is currently in (e.g., &#39;BGR&#39;)</span>
+<span class="sd">        visualize : bool</span>
+<span class="sd">            Also return an image of the spatial color feature</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The stacked color features</span>
+<span class="sd">        img : numpy.ndarray (if visualise=True)</span>
+<span class="sd">            The color features image</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">convert_color</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_cspace</span><span class="p">,</span> <span class="n">cspace0</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">visualize</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_size</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">spatial_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_size</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">img</span></div>
+
+
+<div class="viewcode-block" id="Frame.color_hist"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.color_hist">[docs]</a>    <span class="k">def</span> <span class="nf">color_hist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">cspace0</span><span class="o">=</span><span class="s1">&#39;BGR&#39;</span><span class="p">,</span> <span class="n">visualize</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute color histogram features</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        img : numpy.ndarray</span>
+<span class="sd">            The image for which we are computing features</span>
+<span class="sd">        cspace0 : str</span>
+<span class="sd">            The colorspace that ``img`` is currently in</span>
+<span class="sd">        visualize : bool</span>
+<span class="sd">            Also return an image of the color histogram feature</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        numpy.ndarray</span>
+<span class="sd">            The concatenated histograms</span>
+<span class="sd">        hists : list (if visualise=True)</span>
+<span class="sd">            A list of the histograms</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">convert_color</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_cspace</span><span class="p">,</span> <span class="n">cspace0</span><span class="p">)</span>
+            
+        <span class="c1"># Compute the histogram of the color channels separately</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">visualize</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">img</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_range</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hists</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">img</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_bins</span><span class="p">,</span> <span class="nb">range</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hist_range</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
+            <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">hists</span><span class="p">),</span> <span class="n">hists</span></div>
+
+
+<div class="viewcode-block" id="Frame.get_hog_features"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.get_hog_features">[docs]</a>    <span class="k">def</span> <span class="nf">get_hog_features</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">cspace0</span><span class="o">=</span><span class="s1">&#39;BGR&#39;</span><span class="p">,</span> <span class="n">visualize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">feature_vector</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract a Histogram of Oriented Gradients (HOG) for the ``Frame`` object&#39;s image</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        img : numpy.ndarray</span>
+<span class="sd">            The image for which we are computing features</span>
+<span class="sd">        cspace0 : str</span>
+<span class="sd">            The colorspace that ``img`` is currently in (e.g., &#39;BGR&#39;)</span>
+<span class="sd">        visualize : bool</span>
+<span class="sd">            Also return an image of the HOG</span>
+<span class="sd">        feature_vector : bool</span>
+<span class="sd">            Return the data as a feature vector by calling .ravel() on the result</span>
+<span class="sd">            just before returning</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        features : list</span>
+<span class="sd">            A list of HOG arrays (1 numpy array for each image channel)</span>
+<span class="sd">        hog_image : list (if visualise=True)</span>
+<span class="sd">            A list of visualisations of the HOG images (1 numpy array for each image channel)</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">convert_color</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cspace</span><span class="p">,</span> <span class="n">cspace0</span><span class="p">)</span>
+        
+        <span class="c1"># all image channels</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_channel</span> <span class="o">==</span> <span class="s1">&#39;ALL&#39;</span><span class="p">:</span>
+            <span class="n">num_channels</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">hog</span><span class="p">(</span><span class="n">img</span><span class="p">[:,:,</span><span class="n">i</span><span class="p">],</span> <span class="n">orientations</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_orientations</span><span class="p">,</span>
+                            <span class="n">pixels_per_cell</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span><span class="p">),</span>
+                            <span class="n">cells_per_block</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span><span class="p">),</span>
+                            <span class="n">block_norm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_block_norm</span><span class="p">,</span> <span class="n">transform_sqrt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">visualise</span><span class="o">=</span><span class="n">visualize</span><span class="p">,</span> <span class="n">feature_vector</span><span class="o">=</span><span class="n">feature_vector</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_channels</span><span class="p">)]</span>
+                        
+            <span class="k">if</span> <span class="n">visualize</span><span class="p">:</span>
+                <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">features</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">features</span>
+                
+        <span class="c1"># 1 image channel</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">features</span> <span class="o">=</span> <span class="n">hog</span><span class="p">(</span><span class="n">img</span><span class="p">[:,:,</span><span class="n">hog_channel</span><span class="p">],</span> <span class="n">orientations</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_orientations</span><span class="p">,</span>
+                           <span class="n">pixels_per_cell</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span><span class="p">),</span>
+                           <span class="n">cells_per_block</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span><span class="p">),</span>
+                           <span class="n">block_norm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_block_norm</span><span class="p">,</span> <span class="n">transform_sqrt</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                           <span class="n">visualise</span><span class="o">=</span><span class="n">visualize</span><span class="p">,</span> <span class="n">feature_vector</span><span class="o">=</span><span class="n">feature_vector</span><span class="p">)</span>
+                           
+            <span class="k">if</span> <span class="n">visualize</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">features</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">features</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">features</span><span class="p">]</span></div>
+        
+    <span class="c1"># ======================================== #</span>
+    <span class="c1">#                                          #</span>
+    <span class="c1">#            Feature extraction            #</span>
+    <span class="c1">#                                          #</span>
+    <span class="c1"># ======================================== #</span>
+    
+<div class="viewcode-block" id="Frame.extract_features"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.extract_features">[docs]</a>    <span class="k">def</span> <span class="nf">extract_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract HOG, spatial and/or color features from an image</span>
+<span class="sd">        </span>
+<span class="sd">        This method is for extracting features from training images</span>
+<span class="sd">        </span>
+<span class="sd">        See `Frame.bin_spatial`, `Frame.color_hist`, and `Frame.get_hog_features`</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        features : numpy.ndarray</span>
+<span class="sd">            The concatenated features</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span>
+        
+        <span class="c1"># Create a list to append feature vectors to</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[]</span>
+        
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_feat</span><span class="p">:</span>
+            <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bin_spatial</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;BGR&#39;</span><span class="p">))</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_feat</span><span class="p">:</span>
+            <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">color_hist</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;BGR&#39;</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_feat</span><span class="p">:</span>
+            <span class="n">features</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_hog_features</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;BGR&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">)))</span>
+        
+        <span class="c1"># Return list of feature vectors</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">features</span><span class="p">)</span></div>
+
+    <span class="c1"># ======================================== #</span>
+    <span class="c1">#                                          #</span>
+    <span class="c1">#                Find cars                 #</span>
+    <span class="c1">#                                          #</span>
+    <span class="c1"># ======================================== #</span>
+    
+<div class="viewcode-block" id="Frame.get_windows"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.get_windows">[docs]</a>    <span class="k">def</span> <span class="nf">get_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get a list of all the windows that will be searched for cars</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        bbox_list : list</span>
+<span class="sd">            A list with entries of the form ``(xy, xy_hog, xy_color)``, where each</span>
+<span class="sd">            ``xy`` term is of the form ``((x0, y0), (x1, y1))`` and specifies a</span>
+<span class="sd">            bounding box for the original image, the HOG-processed image, and the</span>
+<span class="sd">            patch image used by `Frame.color_hist` and `Frame.bin_spatial`</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">]</span>
+        
+        <span class="c1"># Define blocks and steps</span>
+        <span class="n">nxblocks</span> <span class="o">=</span> <span class="p">(</span><span class="n">cols</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">nyblocks</span> <span class="o">=</span> <span class="p">(</span><span class="n">rows</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">nfeat_per_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_orientations</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span><span class="o">**</span><span class="mi">2</span>
+
+        <span class="c1"># 64 was the orginal sampling rate, with 8 cells and 8 pix per cell</span>
+        <span class="n">window</span> <span class="o">=</span> <span class="mi">64</span>
+        <span class="n">nblocks_per_window</span> <span class="o">=</span> <span class="p">(</span><span class="n">window</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cell_per_block</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">nxsteps</span> <span class="o">=</span> <span class="p">(</span><span class="n">nxblocks</span> <span class="o">-</span> <span class="n">nblocks_per_window</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cells_per_step</span>
+        <span class="n">nysteps</span> <span class="o">=</span> <span class="p">(</span><span class="n">nyblocks</span> <span class="o">-</span> <span class="n">nblocks_per_window</span><span class="p">)</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_cells_per_step</span>
+        
+        <span class="n">bbox_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">xb</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nxsteps</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">nxsteps</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">yb</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nysteps</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+                <span class="n">ypos</span> <span class="o">=</span> <span class="n">yb</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_cells_per_step</span>
+                <span class="n">xpos</span> <span class="o">=</span> <span class="n">xb</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">hog_cells_per_step</span>
+                <span class="n">xleft</span> <span class="o">=</span> <span class="n">xpos</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span>
+                <span class="n">ytop</span> <span class="o">=</span> <span class="n">ypos</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_pix_per_cell</span>
+
+                <span class="n">xbox_left</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">xleft</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+                <span class="n">ytop_draw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">ytop</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+                <span class="n">win_draw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">window</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+                  
+                <span class="n">bbox_list</span><span class="o">.</span><span class="n">append</span><span class="p">((((</span><span class="n">xbox_left</span><span class="p">,</span> <span class="n">ytop_draw</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_row</span><span class="p">),</span> <span class="p">(</span><span class="n">xbox_left</span> <span class="o">+</span> <span class="n">win_draw</span><span class="p">,</span> <span class="n">ytop_draw</span> <span class="o">+</span> <span class="n">win_draw</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">min_row</span><span class="p">)),</span>
+                                  <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">xpos</span><span class="p">),</span> <span class="n">ypos</span><span class="p">),</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">xpos</span><span class="p">)</span> <span class="o">+</span> <span class="n">nblocks_per_window</span><span class="p">,</span> <span class="n">ypos</span> <span class="o">+</span> <span class="n">nblocks_per_window</span><span class="p">)),</span>
+                                  <span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">xleft</span><span class="p">),</span> <span class="n">ytop</span><span class="p">),</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">(</span><span class="n">xleft</span><span class="p">)</span> <span class="o">+</span> <span class="n">window</span><span class="p">,</span> <span class="n">ytop</span> <span class="o">+</span> <span class="n">window</span><span class="p">))))</span>
+            
+        <span class="k">return</span> <span class="n">bbox_list</span></div>
+    
+<div class="viewcode-block" id="Frame.get_bboxes"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.get_bboxes">[docs]</a>    <span class="k">def</span> <span class="nf">get_bboxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">svc</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">X_scaler</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">min_rows</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">],</span> <span class="n">max_rows</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">],</span> <span class="n">cells_per_steps</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;Extract features from an image, apply the classifier, and generate ``self.heatmap``</span>
+<span class="sd">        </span>
+<span class="sd">        This method is for finding cars on a real world image (i.e., not a cropped training image)</span>
+<span class="sd">        </span>
+<span class="sd">        See `Frame.bin_spatial`, `Frame.color_hist`, and `Frame.get_hog_features`</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        svc : sklearn.svm.classes.LinearSVC</span>
+<span class="sd">            SVM classifier</span>
+<span class="sd">        X_scaler : sklearn.preprocessing.data.StandardScaler</span>
+<span class="sd">            Feature scaler</span>
+<span class="sd">        scales : list</span>
+<span class="sd">            The scales (``self.scale``) at which to run the feature extraction and classifier</span>
+<span class="sd">        min_rows : list</span>
+<span class="sd">            A list of the minimum rows for cropping the image</span>
+<span class="sd">        max_rows : list</span>
+<span class="sd">            A list of the maximum rows for cropping the image</span>
+<span class="sd">        cells_per_steps : list</span>
+<span class="sd">            A list of the values for ``self.hog_cells_per_step``</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bbox_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">heatmap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img0</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">scale</span><span class="p">,</span> <span class="n">min_row</span><span class="p">,</span> <span class="n">max_row</span><span class="p">,</span> <span class="n">cells_per_step</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">scales</span><span class="p">,</span> <span class="n">min_rows</span><span class="p">,</span> <span class="n">max_rows</span><span class="p">,</span> <span class="n">cells_per_steps</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">min_row</span> <span class="o">=</span> <span class="n">min_row</span> <span class="k">if</span> <span class="n">min_row</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">max_row</span> <span class="o">=</span> <span class="n">max_row</span> <span class="k">if</span> <span class="n">max_row</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">img0</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hog_cells_per_step</span> <span class="o">=</span> <span class="n">cells_per_step</span>
+            
+            <span class="n">img</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">img</span>
+
+            <span class="c1"># Compute a list of the individual channel HOG features for the entire image</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_feat</span><span class="p">:</span>
+                <span class="n">hog_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_hog_features</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s1">&#39;BGR&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+                
+            <span class="k">for</span> <span class="n">xy</span><span class="p">,</span> <span class="n">xy_hog</span><span class="p">,</span> <span class="n">xy_color</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_windows</span><span class="p">():</span>
+                <span class="c1"># Extract HOG for this patch</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hog_feat</span><span class="p">:</span>
+                    <span class="n">hog_features</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">hog_feat</span><span class="p">[</span><span class="n">xy_hog</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span><span class="n">xy_hog</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">xy_hog</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="n">xy_hog</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span> <span class="k">for</span> <span class="n">hog_feat</span> <span class="ow">in</span> <span class="n">hog_list</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">hog_features</span> <span class="o">=</span> <span class="p">[]</span>
+                    
+                <span class="c1"># Extract the image patch</span>
+                <span class="n">patch</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">img</span><span class="p">[</span><span class="n">xy_color</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span><span class="n">xy_color</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">xy_color</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="n">xy_color</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]],</span> <span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="mi">64</span><span class="p">))</span>
+
+                <span class="c1"># Get spatial color features</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">spatial_feat</span><span class="p">:</span>
+                    <span class="n">spatial_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bin_spatial</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="s1">&#39;BGR&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">spatial_features</span> <span class="o">=</span> <span class="p">[]</span>
+                    
+                <span class="c1"># get color histogram features</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_feat</span><span class="p">:</span>
+                    <span class="n">hist_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">color_hist</span><span class="p">(</span><span class="n">patch</span><span class="p">,</span> <span class="s1">&#39;BGR&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">hist_features</span> <span class="o">=</span> <span class="p">[]</span>
+                    
+                <span class="c1"># Scale features and make a prediction</span>
+                <span class="n">test_features</span> <span class="o">=</span> <span class="n">X_scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">((</span><span class="n">spatial_features</span><span class="p">,</span> <span class="n">hist_features</span><span class="p">,</span> <span class="n">hog_features</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">test_prediction</span> <span class="o">=</span> <span class="n">svc</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_features</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="n">test_prediction</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">bbox_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
+                    
+        <span class="k">return</span> <span class="n">bbox_list</span></div>
+        
+<div class="viewcode-block" id="Frame.get_heatmap"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.get_heatmap">[docs]</a>    <span class="k">def</span> <span class="nf">get_heatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extract features from an image, apply the classifier, and generate ``self.heatmap``</span>
+<span class="sd">        </span>
+<span class="sd">        See `Frame.get_bboxes`</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Keyword arguments for `Frame.get_heatmap`</span>
+<span class="sd">        </span>
+<span class="sd">        This method is for finding cars on a real world image (i.e., not a cropped training image)</span>
+<span class="sd">        </span>
+<span class="sd">        See `Frame.bin_spatial`, `Frame.color_hist`, and `Frame.get_hog_features`</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        svc : sklearn.svm.classes.LinearSVC</span>
+<span class="sd">            SVM classifier</span>
+<span class="sd">        X_scaler : sklearn.preprocessing.data.StandardScaler</span>
+<span class="sd">            Feature scaler</span>
+<span class="sd">        scales : list</span>
+<span class="sd">            The scales (``self.scale``) at which to run the feature extraction and classifier</span>
+<span class="sd">        min_rows : list</span>
+<span class="sd">            A list of the minimum rows for cropping the image</span>
+<span class="sd">        max_rows : list</span>
+<span class="sd">            A list of the maximum rows for cropping the image</span>
+<span class="sd">        cells_per_steps : list</span>
+<span class="sd">            A list of the values for ``self.hog_cells_per_step``</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">bbox_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bboxes</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">heatmap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">img0</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">xy</span> <span class="ow">in</span> <span class="n">bbox_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">heatmap</span><span class="p">[</span><span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span><span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span></div>
+        
+<div class="viewcode-block" id="Frame.find_cars"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.Frame.find_cars">[docs]</a>    <span class="k">def</span> <span class="nf">find_cars</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Find cars using the heatmap</span>
+<span class="sd">        </span>
+<span class="sd">        See `Frame.get_heatmap`</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Keyword arguments for `Frame.get_bboxes` / `Frame.get_heatmap`</span>
+<span class="sd">            </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">heatmap</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_heatmap</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            
+        <span class="n">heatmap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heatmap</span><span class="p">)</span>
+            
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># find the cars from the heatmap</span>
+            <span class="n">heatmap</span><span class="p">[</span><span class="n">heatmap</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">heat_thresh</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">car_bboxes</span> <span class="o">=</span> <span class="n">heatmap_to_bboxes</span><span class="p">(</span><span class="n">heatmap</span><span class="p">)</span>
+        
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_bboxes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">car_bboxes</span><span class="p">)</span>
+            
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># use previous heatmaps</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="p">:</span>
+                <span class="n">heatmap</span> <span class="o">+=</span> <span class="n">p</span><span class="o">.</span><span class="n">heatmap</span>
+            <span class="n">heatmap</span> <span class="o">/=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="p">))</span>
+                
+            <span class="n">heatmap</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">heatmap</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+            
+            <span class="c1"># find the cars from the heatmap</span>
+            <span class="n">heatmap</span><span class="p">[</span><span class="n">heatmap</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">heat_thresh</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                
+            <span class="bp">self</span><span class="o">.</span><span class="n">car_bboxes</span> <span class="o">=</span> <span class="n">heatmap_to_bboxes</span><span class="p">(</span><span class="n">heatmap</span><span class="p">)</span>
+            
+            <span class="n">heatmap2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">heatmap</span><span class="o">.</span><span class="n">shape</span><span class="p">[:</span><span class="mi">2</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float</span><span class="p">)</span>
+            
+            <span class="c1"># fill in each bounding box on the heatmap</span>
+            <span class="k">for</span> <span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">car_bboxes</span><span class="p">:</span>
+                <span class="n">heatmap2</span><span class="p">[</span><span class="n">y1</span><span class="p">:</span><span class="n">y2</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span><span class="n">x2</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">prev</span><span class="p">:</span>
+                <span class="k">for</span> <span class="p">((</span><span class="n">x1</span><span class="p">,</span> <span class="n">y1</span><span class="p">),</span> <span class="p">(</span><span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">))</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">car_bboxes</span><span class="p">:</span>
+                    <span class="n">heatmap2</span><span class="p">[</span><span class="n">y1</span><span class="p">:</span><span class="n">y2</span><span class="p">,</span> <span class="n">x1</span><span class="p">:</span><span class="n">x2</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    
+            <span class="n">car_bboxes</span> <span class="o">=</span> <span class="n">heatmap_to_bboxes</span><span class="p">(</span><span class="n">heatmap2</span><span class="p">)</span>
+            
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">draw_bboxes</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">car_bboxes</span><span class="p">)</span></div></div>
+        
+<div class="viewcode-block" id="heatmap_to_bboxes"><a class="viewcode-back" href="../../project05.frame.html#project05.frame.heatmap_to_bboxes">[docs]</a><span class="k">def</span> <span class="nf">heatmap_to_bboxes</span><span class="p">(</span><span class="n">heatmap</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert from a heatmap image to car bounding boxes</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------        </span>
+<span class="sd">    heatmap : numpy.ndarray</span>
+<span class="sd">        A heatmap image of car detections</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bbox_list : list</span>
+<span class="sd">        A list of ``((x1, y1), (x2, y2))`` coordinates for drawing boxes</span>
+<span class="sd">    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bbox_list</span> <span class="o">=</span> <span class="p">[]</span>
+    
+    <span class="c1"># convert from a heatmap to labels</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">label</span><span class="p">(</span><span class="n">heatmap</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">car_number</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">labels</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># Find pixels with each car_number label value</span>
+        <span class="n">nonzero</span> <span class="o">=</span> <span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">car_number</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()</span>
+        
+        <span class="c1"># Identify x and y values of those pixels</span>
+        <span class="n">nonzeroy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nonzero</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">nonzerox</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nonzero</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="c1"># Define a bounding box based on min/max x and y</span>
+        <span class="n">bbox_list</span><span class="o">.</span><span class="n">append</span><span class="p">(((</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">nonzerox</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">nonzeroy</span><span class="p">)),</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">nonzerox</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">nonzeroy</span><span class="p">))))</span>
+        
+    <span class="k">return</span> <span class="n">bbox_list</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jeff Irion.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

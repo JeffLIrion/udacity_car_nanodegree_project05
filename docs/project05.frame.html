@@ -1,0 +1,580 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>project05.frame module &mdash; Documentation for Project 5 Code 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="genindex.html"/>
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Documentation for Project 5 Code 1.0 documentation" href="index.html"/>
+        <link rel="up" title="project05 package" href="project05.html"/>
+        <link rel="next" title="project05.image module" href="project05.image.html"/>
+        <link rel="prev" title="project05 package" href="project05.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Documentation for Project 5 Code
+          
+
+          
+            
+            <img src="_static/icon.png" class="logo" />
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Documentation for Project 5 Code</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="project05.html">project05 package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="project05.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">project05.frame module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="project05.image.html">project05.image module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="project05.html#module-project05">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Documentation for Project 5 Code</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="project05.html">project05 package</a> &raquo;</li>
+        
+      <li>project05.frame module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/project05.frame.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+/* nice headers on first paragraph of info/warning boxes */
+.admonition .first {
+    margin: -12px;
+    padding: 6px 12px;
+    margin-bottom: 12px;
+    color: #fff;
+    line-height: 1;
+    display: block;
+}
+.admonition.warning .first {
+    background: #f0b37e;
+}
+.admonition.note .first {
+    background: #6ab0de;
+}
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+</style>
+<div class="section" id="module-project05.frame">
+<span id="project05-frame-module"></span><h1>project05.frame module<a class="headerlink" href="#module-project05.frame" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="project05.frame.Frame">
+<em class="property">class </em><code class="descclassname">project05.frame.</code><code class="descname">Frame</code><span class="sig-paren">(</span><em>img=None</em>, <em>imgpath=None</em>, <em>min_row=0</em>, <em>max_row=None</em>, <em>scale=1.0</em>, <em>spatial_cspace='BGR'</em>, <em>hist_cspace='BGR'</em>, <em>hog_cspace='BGR'</em>, <em>spatial_size=32</em>, <em>hist_bins=32</em>, <em>hist_range=(0</em>, <em>256)</em>, <em>hog_orientations=9</em>, <em>hog_pix_per_cell=8</em>, <em>hog_cell_per_block=2</em>, <em>hog_cells_per_step=2</em>, <em>hog_block_norm='L1'</em>, <em>hog_channel='ALL'</em>, <em>spatial_feat=True</em>, <em>hist_feat=True</em>, <em>hog_feat=True</em>, <em>heat_thresh=2</em>, <em>prev=None</em>, <em>prev_thresh=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="project05.frame.Frame.bin_spatial">
+<code class="descname">bin_spatial</code><span class="sig-paren">(</span><em>img</em>, <em>cspace0='BGR'</em>, <em>visualize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.bin_spatial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.bin_spatial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute binned color features</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> (<em>numpy.ndarray</em>) – The image for which we are computing features</li>
+<li><strong>cspace0</strong> (<em>str</em>) – The colorspace that <code class="docutils literal"><span class="pre">img</span></code> is currently in (e.g., ‘BGR’)</li>
+<li><strong>visualize</strong> (<em>bool</em>) – Also return an image of the spatial color feature</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>numpy.ndarray</em> – The stacked color features</li>
+<li><strong>img</strong> (<em>numpy.ndarray (if visualise=True)</em>) – The color features image</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.color_hist">
+<code class="descname">color_hist</code><span class="sig-paren">(</span><em>img</em>, <em>cspace0='BGR'</em>, <em>visualize=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.color_hist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.color_hist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute color histogram features</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> (<em>numpy.ndarray</em>) – The image for which we are computing features</li>
+<li><strong>cspace0</strong> (<em>str</em>) – The colorspace that <code class="docutils literal"><span class="pre">img</span></code> is currently in</li>
+<li><strong>visualize</strong> (<em>bool</em>) – Also return an image of the color histogram feature</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><em>numpy.ndarray</em> – The concatenated histograms</li>
+<li><strong>hists</strong> (<em>list (if visualise=True)</em>) – A list of the histograms</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.draw_bboxes">
+<code class="descname">draw_bboxes</code><span class="sig-paren">(</span><em>bbox_list</em>, <em>color=(0</em>, <em>0</em>, <em>255)</em>, <em>thickness=6</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.draw_bboxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.draw_bboxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw boxes on the <code class="docutils literal"><span class="pre">Frame</span></code> object’s image</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>bbox_list</strong> (<em>list</em>) – A list of <code class="docutils literal"><span class="pre">((x1,</span> <span class="pre">y1),</span> <span class="pre">(x2,</span> <span class="pre">y2))</span></code> coordinates for drawing boxes</li>
+<li><strong>color</strong> (<em>tuple</em>) – The color that the boxes should be drawn</li>
+<li><strong>thickness</strong> (<em>int</em>) – Thickness of lines that make up the rectangle</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>draw_img</strong> – The image with boxes drawn on it</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.extract_features">
+<code class="descname">extract_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.extract_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.extract_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract HOG, spatial and/or color features from an image</p>
+<p>This method is for extracting features from training images</p>
+<p>See <cite>Frame.bin_spatial</cite>, <cite>Frame.color_hist</cite>, and <cite>Frame.get_hog_features</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>features</strong> – The concatenated features</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.find_cars">
+<code class="descname">find_cars</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.find_cars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.find_cars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find cars using the heatmap</p>
+<p>See <cite>Frame.get_heatmap</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments for <cite>Frame.get_bboxes</cite> / <cite>Frame.get_heatmap</cite></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.get_bboxes">
+<code class="descname">get_bboxes</code><span class="sig-paren">(</span><em>svc=None, X_scaler=None, scales=[1], min_rows=[None], max_rows=[None], cells_per_steps=[None]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.get_bboxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.get_bboxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract features from an image, apply the classifier, and generate <code class="docutils literal"><span class="pre">self.heatmap</span></code></p>
+<p>This method is for finding cars on a real world image (i.e., not a cropped training image)</p>
+<p>See <cite>Frame.bin_spatial</cite>, <cite>Frame.color_hist</cite>, and <cite>Frame.get_hog_features</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>svc</strong> (<em>sklearn.svm.classes.LinearSVC</em>) – SVM classifier</li>
+<li><strong>X_scaler</strong> (<em>sklearn.preprocessing.data.StandardScaler</em>) – Feature scaler</li>
+<li><strong>scales</strong> (<em>list</em>) – The scales (<code class="docutils literal"><span class="pre">self.scale</span></code>) at which to run the feature extraction and classifier</li>
+<li><strong>min_rows</strong> (<em>list</em>) – A list of the minimum rows for cropping the image</li>
+<li><strong>max_rows</strong> (<em>list</em>) – A list of the maximum rows for cropping the image</li>
+<li><strong>cells_per_steps</strong> (<em>list</em>) – A list of the values for <code class="docutils literal"><span class="pre">self.hog_cells_per_step</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.get_heatmap">
+<code class="descname">get_heatmap</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.get_heatmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.get_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract features from an image, apply the classifier, and generate <code class="docutils literal"><span class="pre">self.heatmap</span></code></p>
+<p>See <cite>Frame.get_bboxes</cite></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>**kwargs</strong> (<em>dict</em>) – Keyword arguments for <cite>Frame.get_heatmap</cite></li>
+<li><strong>method is for finding cars on a real world image</strong><strong> (</strong><strong>i.e.</strong><strong>, </strong><strong>not a cropped training image</strong><strong>)</strong> (<em>This</em>) – </li>
+<li><strong>Frame.bin_spatial</strong><strong>, </strong><strong>Frame.color_hist</strong><strong>, </strong><strong>and Frame.get_hog_features</strong> (<em>See</em>) – </li>
+<li><strong>svc</strong> (<em>sklearn.svm.classes.LinearSVC</em>) – SVM classifier</li>
+<li><strong>X_scaler</strong> (<em>sklearn.preprocessing.data.StandardScaler</em>) – Feature scaler</li>
+<li><strong>scales</strong> (<em>list</em>) – The scales (<code class="docutils literal"><span class="pre">self.scale</span></code>) at which to run the feature extraction and classifier</li>
+<li><strong>min_rows</strong> (<em>list</em>) – A list of the minimum rows for cropping the image</li>
+<li><strong>max_rows</strong> (<em>list</em>) – A list of the maximum rows for cropping the image</li>
+<li><strong>cells_per_steps</strong> (<em>list</em>) – A list of the values for <code class="docutils literal"><span class="pre">self.hog_cells_per_step</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.get_hog_features">
+<code class="descname">get_hog_features</code><span class="sig-paren">(</span><em>img</em>, <em>cspace0='BGR'</em>, <em>visualize=False</em>, <em>feature_vector=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.get_hog_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.get_hog_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract a Histogram of Oriented Gradients (HOG) for the <code class="docutils literal"><span class="pre">Frame</span></code> object’s image</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> (<em>numpy.ndarray</em>) – The image for which we are computing features</li>
+<li><strong>cspace0</strong> (<em>str</em>) – The colorspace that <code class="docutils literal"><span class="pre">img</span></code> is currently in (e.g., ‘BGR’)</li>
+<li><strong>visualize</strong> (<em>bool</em>) – Also return an image of the HOG</li>
+<li><strong>feature_vector</strong> (<em>bool</em>) – Return the data as a feature vector by calling .ravel() on the result
+just before returning</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><ul class="simple">
+<li><strong>features</strong> (<em>list</em>) – A list of HOG arrays (1 numpy array for each image channel)</li>
+<li><strong>hog_image</strong> (<em>list (if visualise=True)</em>) – A list of visualisations of the HOG images (1 numpy array for each image channel)</li>
+</ul>
+</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.get_windows">
+<code class="descname">get_windows</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.get_windows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.get_windows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of all the windows that will be searched for cars</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>bbox_list</strong> – A list with entries of the form <code class="docutils literal"><span class="pre">(xy,</span> <span class="pre">xy_hog,</span> <span class="pre">xy_color)</span></code>, where each
+<code class="docutils literal"><span class="pre">xy</span></code> term is of the form <code class="docutils literal"><span class="pre">((x0,</span> <span class="pre">y0),</span> <span class="pre">(x1,</span> <span class="pre">y1))</span></code> and specifies a
+bounding box for the original image, the HOG-processed image, and the
+patch image used by <cite>Frame.color_hist</cite> and <cite>Frame.bin_spatial</cite></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project05.frame.Frame.img">
+<code class="descname">img</code><a class="headerlink" href="#project05.frame.Frame.img" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <code class="docutils literal"><span class="pre">Frame</span></code> object’s rescaled associated image</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The <code class="docutils literal"><span class="pre">Frame</span></code> object’s rescaled image</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="project05.frame.Frame.img0">
+<code class="descname">img0</code><a class="headerlink" href="#project05.frame.Frame.img0" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a <code class="docutils literal"><span class="pre">Frame</span></code> object’s original associated image</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The <code class="docutils literal"><span class="pre">Frame</span></code> object’s original image</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">numpy.ndarray</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="project05.frame.Frame.load_img">
+<code class="descname">load_img</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#Frame.load_img"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.Frame.load_img" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a <code class="docutils literal"><span class="pre">Frame</span></code> object’s associated image</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="project05.frame.convert_color">
+<code class="descclassname">project05.frame.</code><code class="descname">convert_color</code><span class="sig-paren">(</span><em>img</em>, <em>cspace=None</em>, <em>cspace0='BGR'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#convert_color"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.convert_color" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert <code class="docutils literal"><span class="pre">img</span></code> to colorspace <code class="docutils literal"><span class="pre">cspace</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>img</strong> (<em>numpy.ndarray</em>) – The image</li>
+<li><strong>cspace</strong> (<em>str</em><em>, </em><em>None</em>) – The image will be converted to this colorspace (e.g., ‘BGR’)</li>
+<li><strong>cspace0</strong> (<em>str</em>) – The colorspace that <code class="docutils literal"><span class="pre">img</span></code> is currently in</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The image in the specified colorspace</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">numpy.ndarray</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="project05.frame.heatmap_to_bboxes">
+<code class="descclassname">project05.frame.</code><code class="descname">heatmap_to_bboxes</code><span class="sig-paren">(</span><em>heatmap</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/project05/frame.html#heatmap_to_bboxes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#project05.frame.heatmap_to_bboxes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert from a heatmap image to car bounding boxes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>heatmap</strong> (<em>numpy.ndarray</em>) – A heatmap image of car detections</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>bbox_list</strong> – A list of <code class="docutils literal"><span class="pre">((x1,</span> <span class="pre">y1),</span> <span class="pre">(x2,</span> <span class="pre">y2))</span></code> coordinates for drawing boxes</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="project05.image.html" class="btn btn-neutral float-right" title="project05.image module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="project05.html" class="btn btn-neutral" title="project05 package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Jeff Irion.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

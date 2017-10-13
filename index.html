@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset='utf-8'>
+<meta http-equiv="X-UA-Compatible" content="chrome=1">
+<meta name="description" content="Udacity Self-Driving Car Nanodegree -- Project 5">
+
+<link rel="stylesheet" type="text/css" media="screen" href="https://jefflirion.github.io/stylesheets/stylesheet.css">
+
+<title>Udacity Self-Driving Car Nanodegree -- Project 5</title>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div id="header_wrap" class="outer">
+<header class="inner">
+<a id="home_banner" href="https://jefflirion.github.io/udacity/index.html#self-driving-car">Self-Driving Car</a>
+<a id="repo_banner" href="https://github.com/JeffLIrion/udacity_car_nanodegree_project05">View this repo</a>
+<h1 id="project_title">Udacity Self-Driving Car Nanodegree -- Project 5</h1>
+
+</header>
+</div>
+
+<!-- MAIN CONTENT -->
+<div id="main_content_wrap" class="outer">
+<section id="main_content" class="inner">
+
+
+
+
+<h1><a id="Vehicle_Detection_Project_0"></a><strong>Vehicle Detection Project</strong></h1>
+<p><a href="./Vehicle_Detection.html">Exported Jupyter notebook</a></p>
+<p><a href="./docs/index.html">Project Documentation</a></p>
+<hr>
+<h2><a id="From_Udacity_8"></a>From Udacity:</h2>
+<blockquote>
+<p>The goals / steps of this project are the following:</p>
+<ul>
+<li>Perform a Histogram of Oriented Gradients (HOG) feature extraction on a labeled training set of images and train a classifier Linear SVM classifier</li>
+<li>Optionally, you can also apply a color transform and append binned color features, as well as histograms of color, to your HOG feature vector.</li>
+<li>Note: for those first two steps don’t forget to normalize your features and randomize a selection for training and testing.</li>
+<li>Implement a sliding-window technique and use your trained classifier to search for vehicles in images.</li>
+<li>Run your pipeline on a video stream (start with the test_video.mp4 and later implement on full project_video.mp4) and create a heat map of recurring detections frame by frame to reject outliers and follow detected vehicles.</li>
+<li>Estimate a bounding box for vehicles detected.</li>
+</ul>
+<h2><a id="Rubric_points_19"></a>Rubric points</h2>
+<p>Here I will consider the <a href="https://review.udacity.com/#!/rubrics/513/view">rubric points</a> individually and describe how I addressed each point in my implementation.</p>
+</blockquote>
+<h3><a id="Writeup__README_25"></a>Writeup / README</h3>
+<h4><a id="1_Provide_a_Writeup__README_that_includes_all_the_rubric_points_and_how_you_addressed_each_one__You_can_submit_your_writeup_as_markdown_or_pdf__HerehttpsgithubcomudacityCarNDVehicleDetectionblobmasterwriteup_templatemd_is_a_template_writeup_for_this_project_you_can_use_as_a_guide_and_a_starting_point_27"></a>1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  <a href="https://github.com/udacity/CarND-Vehicle-Detection/blob/master/writeup_template.md">Here</a> is a template writeup for this project you can use as a guide and a starting point.</h4>
+<p>You’re reading it!</p>
+<h3><a id="Histogram_of_Oriented_Gradients_HOG_33"></a>Histogram of Oriented Gradients (HOG)</h3>
+<p>I implemented a <a href="./docs/project05.frame.html"><code>Frame</code></a> class which contains all of the necessary methods for extracting features and detecting cars in an image/video frame.</p>
+<h4><a id="1_Explain_how_and_identify_where_in_your_code_you_extracted_HOG_features_from_the_training_images_39"></a>1. Explain how (and identify where in your code) you extracted HOG features from the training images.</h4>
+<p>This step is performed by the method <a href="./docs/project05.frame.html#project05.frame.Frame.get_hog_features"><code>Frame.get_hog_features()</code></a>.  I used the <code>YCrCb</code> color channels (all 3), as these yielded better results in my experiments.  The parameters used for feature extraction can be found in the cell <a href="./Vehicle_Detection.html#Parameters-used-for-feature-extraction">Parameters used for feature extraction and training the classifier</a> of my Jupyter notebook:</p>
+<pre><code>HOG parameters
+--------------
+Colorspace for HOG features:  YCrCb
+Number of orientations:  9
+Pixels per cell:  (8, 8)
+Cells per block:  (2, 2)
+Cells per step:  2
+Block normalization method:  L1
+HOG channel(s) used:  ALL
+</code></pre>
+<p>The relevant code in the Jupyter notebook is:</p>
+<ul>
+<li><a href="./Vehicle_Detection.html#1.-Feature-extraction">1. Feature extraction</a>
+<ul>
+<li><a href="./Vehicle_Detection.html#Get-lists-of-image-paths">Get lists of image paths</a></li>
+<li><a href="./Vehicle_Detection.html#Load-the-cars-and-notcars-images">Load the <code>cars</code> and <code>notcars</code> images</a></li>
+<li><a href="./Vehicle_Detection.html#Extract-features-from-cars-and-notcars">Extract features from <code>cars</code> and <code>notcars</code></a></li>
+</ul>
+</li>
+</ul>
+<p>An example of a car and “not car” image can be seen in the next section.</p>
+<h4><a id="2_Explain_how_you_settled_on_your_final_choice_of_HOG_parameters_66"></a>2. Explain how you settled on your final choice of HOG parameters.</h4>
+<p>I explored the data in the cell <a href="./Vehicle_Detection.html#2.-Data-exploration">2. Data exploration</a> of my Jupyter notebook.  I initially used the <code>RGB</code> channels for my HOG, color binning, and color histogram feature extractions, but found that the <code>YCrCb</code> channels worked better.  Based on the images below and other images I saw in my data exploration, I believe this is due in part to the fact that the <code>YCrCb</code> channels tend to differentiate between shiny and reflective cars versus dull non-car objects.  For HOG, I used 9 orientations, 8x8 cells, and 2x2 cells per block; all of those were the standard parameters used through the lessons.  My classifier was achieving over 99% accuracy, so I felt that this was sufficient.  Ultimately, I found that it was pretty easy to do well on the training and testing data, but much more difficult to do a satisfactory job on the larger images and video data.</p>
+<p>Here are some sample images and extracted features:</p>
+<p><img src="./features/car_1864.png" width="256" height="256">
+<img src="./features/notcar_extra1047.png" width="256" height="256"><br>
+<img src="./features/car_1864_HOG.png" width="256" height="256">
+<img src="./features/notcar_extra1047_HOG.png" width="256" height="256"><br>
+<img src="./features/car_1864_binned.png" width="256" height="256">
+<img src="./features/notcar_extra1047_binned.png" width="256" height="256"></p>
+<h4><a id="3_Describe_how_and_identify_where_in_your_code_you_trained_a_classifier_using_your_selected_HOG_features_and_color_features_if_you_used_them_81"></a>3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).</h4>
+<p>In cell <a href="./Vehicle_Detection.html#Linear-SVM-with-C-=-1">Linear SVM with <code>C = 1</code></a> of my Jupyter notebook, I trained a linear SVM with <code>C = 1</code>.  I tried using <code>GridSearchCV</code> to train the model in cell <a href="./Vehicle_Detection.html#Use-GridSearchCV">Use <code>GridSearchCV</code></a>, but I found that this selected <code>C = 1</code> anyways.  I used HOG features, binned color features, and color histogram features.</p>
+<h3><a id="Sliding_Window_Search_87"></a>Sliding Window Search</h3>
+<h4><a id="1_Describe_how_and_identify_where_in_your_code_you_implemented_a_sliding_window_search__How_did_you_decide_what_scales_to_search_and_how_much_to_overlap_windows_89"></a>1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?</h4>
+<p>I implemented a sliding approach following what was presented in the lessons.  One improvement that I made was to extend the window to the full width of the image.  This is done in the method <a href="./docs/project05.frame.html#project05.frame.Frame.get_windows"><code>Frame.get_windows()</code></a>.  The parameters that I used are contained in the cell <a href="./Vehicle_Detection.html#Parameters-used-for-detecting-cars-in-an-image">Parameters used for detecting cars in an image</a>.  These were found through a lot of trial and error.  I used scales 1.5 and 2 (i.e., square windows with side lengths 96 and 128, respectively).  I used an overlap of 1 cell because I found that using 2 cells led to missed cars.  I also found that using smaller scales led to false positives.  Here are displays of the windows that I searched:</p>
+<p><img src="./windows/windows_1.5.png" alt="297 windows at scale 1.5 (96x96)"><br>
+<img src="./windows/windows_2.png" alt="584 windows at scale 2 (128x128)"></p>
+<h4><a id="2_Show_some_examples_of_test_images_to_demonstrate_how_your_pipeline_is_working__What_did_you_do_to_optimize_the_performance_of_your_classifier_98"></a>2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?</h4>
+<p>I used the <code>YCrCb</code> channels (all 3 of them), and I used HOG, color binning, and color histogram features.  I played around with the area within the image that was searched (<code>min_rows</code> and <code>max_rows</code>), as well as the <code>cells_per_steps</code> and <code>scales</code> parameters; see the method <a href="./docs/project05.frame.html#project05.frame.Frame.get_bboxes"><code>Frame.get_bboxes()</code></a>.  Here are some examples:</p>
+<p><img src="./results/test1.png" alt="test1 boxes"><br>
+<img src="./results/test1_heatmap.png" alt="test1 heatmap"><br>
+<img src="./results/test1_cars.png" alt="test1 cars"></p>
+<p><img src="./results/test2.png" alt="test2 boxes"><br>
+<img src="./results/test2_heatmap.png" alt="test2 heatmap"><br>
+<img src="./results/test2_cars.png" alt="test2 cars"></p>
+<p><img src="./results/test3.png" alt="test3 boxes"><br>
+<img src="./results/test3_heatmap.png" alt="test3 heatmap"><br>
+<img src="./results/test3_cars.png" alt="test3 cars"></p>
+<h3><a id="Video_Implementation_116"></a>Video Implementation</h3>
+<h4><a id="1_Provide_a_link_to_your_final_video_output__Your_pipeline_should_perform_reasonably_well_on_the_entire_project_video_somewhat_wobbly_or_unstable_bounding_boxes_are_ok_as_long_as_you_are_identifying_the_vehicles_most_of_the_time_with_minimal_false_positives_118"></a>1. Provide a link to your final video output.  Your pipeline should perform reasonably well on the entire project video (somewhat wobbly or unstable bounding boxes are ok as long as you are identifying the vehicles most of the time with minimal false positives.)</h4>
+<p>Here’s a <a href="./project_video_cars.mp4">link to my video result</a></p>
+<video width="640" controls>
+<source src="./project_video_cars.mp4" type="video/mp4">
+</video>
+<h4><a id="2_Describe_how_and_identify_where_in_your_code_you_implemented_some_kind_of_filter_for_false_positives_and_some_method_for_combining_overlapping_bounding_boxes_124"></a>2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.</h4>
+<p>The method <a href="./docs/project05.frame.html#project05.frame.Frame.find_cars"><code>Frame.find_cars</code></a> removes false positive and smooths the bouding boxes from frame to frame in the video.  When information about previous vehicles is provided, this function does two main things:</p>
+<ol>
+<li>Combine the heatmaps, adding up the current <code>Frame</code>'s heatmap and the heatmaps from the provided previous <code>Frame</code>s and then taking the average.  This heatmap is then thresholded using <code>heat_thresh = 2</code>.  The aim of this step was to remove false positives and also to recover missed detections.</li>
+<li>I created a new heatmap using the bounding boxes for the car detections from the current <code>Frame</code> and from the provided previous <code>Frame</code>s, and I drew bounding boxes using the labels obtained by  applying <code>scipy.ndimage.measurements.label</code> to this new heatmap.  The aim of this step was to help smooth the bounding boxes from frame to frame.</li>
+</ol>
+<p>I ran <a href="./docs/project05.frame.html#project05.frame.Frame.find_cars"><code>Frame.find_cars</code></a> on the project video, supplying each <code>Frame</code> with the previous 5 <code>Frame</code>s, including their car detections and heatmaps.</p>
+<h3><a id="Discussion_135"></a>Discussion</h3>
+<h4><a id="1_Briefly_discuss_any_problems__issues_you_faced_in_your_implementation_of_this_project__Where_will_your_pipeline_likely_fail__What_could_you_do_to_make_it_more_robust_137"></a>1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?</h4>
+<p>Here I’ll talk about the approach I took, what techniques I used, what worked and why, where the pipeline might fail and how I might improve it if I were going to pursue this project further.</p>
+<p>There were essentially 3 aspects to this project:</p>
+<ol>
+<li><strong>The 64x64 classifier.</strong>  I used an SVM classifier, and it achieved over 99% accuracy on my validation dataset.  As we were provided with training data, this part of the project was pretty simple and I did not consider it to be the most important aspect for getting good results on the video.</li>
+<li><strong>The sliding window search.</strong>  This required some parameter tuning.  Although my SVM classifier was very accurate, my sliding window search missed some cars because they weren’t captured by windows of appropriate size and location.  Also, searching nonsensical areas like the sky would lead to false positives.</li>
+<li><strong>Post-processing the detections.</strong>  For me, this was the most difficult aspect of the project.  After a lot of fine tuning, my sliding window search algorithm became very good at finding cars within images, as the results above demonstrate.  However, my car bounding boxes were very jittery.  It took a lot of trial and error to post-process the detections in such a way that the bounding boxes were (somewhat) smooth without introducing false positives or causing missed detections.</li>
+</ol>
+<p>This pipeline would fail if there was a shiny metallic object, such as a road or construction sign, in one of its search windows.  It would also struggle when the steepness of the road changes, since the windows may no longer be the appropriate size to capture vehicles.</p>
+<p>This pipeline would fail in a real-time scenario!  It takes about a second to process each image.</p>
+<p>One approach that could help to speed up the pipeline and yield better results would be to only perform a sliding window search on the regions of the image where cars enter/leave the field of view; that is, the sides and the horizon.  Once a car enters the field of view and is detected, it could then be tracked using template matching from each frame to the next.  And since the car’s position won’t change much from frame to frame, only a small portion of the image would need to be searched for a template match.</p>
+<p>A completely different approach that I think would perform well would be to use deep learning, since 2D and 3D convolutions should be ideally suited for such a task.</p>
+
+
+
+</section>
+</div>
+
+<!-- FOOTER  -->
+<div id="footer_wrap" class="outer">
+<footer class="inner">
+<p class="copyright">Webpage maintained by <a href="https://github.com/JeffLIrion">Jeff Irion</a></p>
+<p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+</footer>
+</div>
+
+
+
+
+</body>
+</html>
