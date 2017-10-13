@@ -1,8 +1,8 @@
 # **Vehicle Detection Project**
 
-[Exported Jupyter notebook](./Vehicle_Detection.html)
+[Exported Jupyter notebook](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html)
 
-[Project Documentation](./docs/index.html)
+[Project Documentation](https://jefflirion.github.io/udacity_car_nanodegree_project05/docs/index.html)
 
 ---
 
@@ -33,13 +33,13 @@ You're reading it!
 
 ### Histogram of Oriented Gradients (HOG)
 
-I implemented a [`Frame`](./docs/project05.frame.html) class which contains all of the necessary methods for extracting features and detecting cars in an image/video frame.  
+I implemented a [`Frame`](https://jefflirion.github.io/udacity_car_nanodegree_project05/docs/project05.frame.html) class which contains all of the necessary methods for extracting features and detecting cars in an image/video frame.  
 
 
 
 #### 1. Explain how (and identify where in your code) you extracted HOG features from the training images.
 
-This step is performed by the method [`Frame.get_hog_features()`](./docs/project05.frame.html#project05.frame.Frame.get_hog_features).  I used the `YCrCb` color channels (all 3), as these yielded better results in my experiments.  The parameters used for feature extraction can be found in the cell [Parameters used for feature extraction and training the classifier](./Vehicle_Detection.html#Parameters-used-for-feature-extraction) of my Jupyter notebook:
+This step is performed by the method [`Frame.get_hog_features()`](https://jefflirion.github.io/udacity_car_nanodegree_project05/docs/project05.frame.html#project05.frame.Frame.get_hog_features).  I used the `YCrCb` color channels (all 3), as these yielded better results in my experiments.  The parameters used for feature extraction can be found in the cell [Parameters used for feature extraction and training the classifier](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#Parameters-used-for-feature-extraction) of my Jupyter notebook:
 
 ```
 HOG parameters
@@ -55,10 +55,10 @@ HOG channel(s) used:  ALL
 
 The relevant code in the Jupyter notebook is:
 
-* [1. Feature extraction](./Vehicle_Detection.html#1.-Feature-extraction)
-  * [Get lists of image paths](./Vehicle_Detection.html#Get-lists-of-image-paths)
-  * [Load the `cars` and `notcars` images](./Vehicle_Detection.html#Load-the-cars-and-notcars-images)
-  * [Extract features from `cars` and `notcars`](./Vehicle_Detection.html#Extract-features-from-cars-and-notcars)
+* [1. Feature extraction](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#1.-Feature-extraction)
+  * [Get lists of image paths](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#Get-lists-of-image-paths)
+  * [Load the `cars` and `notcars` images](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#Load-the-cars-and-notcars-images)
+  * [Extract features from `cars` and `notcars`](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#Extract-features-from-cars-and-notcars)
 
 An example of a car and "not car" image can be seen in the next section.  
 
@@ -66,7 +66,7 @@ An example of a car and "not car" image can be seen in the next section.
 
 #### 2. Explain how you settled on your final choice of HOG parameters.
 
-I explored the data in the cell [2. Data exploration](./Vehicle_Detection.html#2.-Data-exploration) of my Jupyter notebook.  I initially used the `RGB` channels for my HOG, color binning, and color histogram feature extractions, but found that the `YCrCb` channels worked better.  Based on the images below and other images I saw in my data exploration, I believe this is due in part to the fact that the `YCrCb` channels tend to differentiate between shiny and reflective cars versus dull non-car objects.  For HOG, I used 9 orientations, 8x8 cells, and 2x2 cells per block; all of those were the standard parameters used through the lessons.  My classifier was achieving over 99% accuracy, so I felt that this was sufficient.  Ultimately, I found that it was pretty easy to do well on the training and testing data, but much more difficult to do a satisfactory job on the larger images and video data.
+I explored the data in the cell [2. Data exploration](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#2.-Data-exploration) of my Jupyter notebook.  I initially used the `RGB` channels for my HOG, color binning, and color histogram feature extractions, but found that the `YCrCb` channels worked better.  Based on the images below and other images I saw in my data exploration, I believe this is due in part to the fact that the `YCrCb` channels tend to differentiate between shiny and reflective cars versus dull non-car objects.  For HOG, I used 9 orientations, 8x8 cells, and 2x2 cells per block; all of those were the standard parameters used through the lessons.  My classifier was achieving over 99% accuracy, so I felt that this was sufficient.  Ultimately, I found that it was pretty easy to do well on the training and testing data, but much more difficult to do a satisfactory job on the larger images and video data.
 
 Here are some sample images and extracted features:
 
@@ -81,7 +81,7 @@ Here are some sample images and extracted features:
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
-In cell [Linear SVM with `C = 1`](./Vehicle_Detection.html#Linear-SVM-with-C-=-1) of my Jupyter notebook, I trained a linear SVM with `C = 1`.  I tried using `GridSearchCV` to train the model in cell [Use `GridSearchCV`](./Vehicle_Detection.html#Use-GridSearchCV), but I found that this selected `C = 1` anyways.  I used HOG features, binned color features, and color histogram features.  
+In cell [Linear SVM with `C = 1`](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#Linear-SVM-with-C-=-1) of my Jupyter notebook, I trained a linear SVM with `C = 1`.  I tried using `GridSearchCV` to train the model in cell [Use `GridSearchCV`](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#Use-GridSearchCV), but I found that this selected `C = 1` anyways.  I used HOG features, binned color features, and color histogram features.  
 
 
 
@@ -89,7 +89,7 @@ In cell [Linear SVM with `C = 1`](./Vehicle_Detection.html#Linear-SVM-with-C-=-1
 
 #### 1. Describe how (and identify where in your code) you implemented a sliding window search.  How did you decide what scales to search and how much to overlap windows?
 
-I implemented a sliding approach following what was presented in the lessons.  One improvement that I made was to extend the window to the full width of the image.  This is done in the method [`Frame.get_windows()`](./docs/project05.frame.html#project05.frame.Frame.get_windows).  The parameters that I used are contained in the cell [Parameters used for detecting cars in an image](./Vehicle_Detection.html#Parameters-used-for-detecting-cars-in-an-image).  These were found through a lot of trial and error.  I used scales 1.5 and 2 (i.e., square windows with side lengths 96 and 128, respectively).  I used an overlap of 1 cell because I found that using 2 cells led to missed cars.  I also found that using smaller scales led to false positives.  Here are displays of the windows that I searched:
+I implemented a sliding approach following what was presented in the lessons.  One improvement that I made was to extend the window to the full width of the image.  This is done in the method [`Frame.get_windows()`](https://jefflirion.github.io/udacity_car_nanodegree_project05/docs/project05.frame.html#project05.frame.Frame.get_windows).  The parameters that I used are contained in the cell [Parameters used for detecting cars in an image](https://jefflirion.github.io/udacity_car_nanodegree_project05/Vehicle_Detection.html#Parameters-used-for-detecting-cars-in-an-image).  These were found through a lot of trial and error.  I used scales 1.5 and 2 (i.e., square windows with side lengths 96 and 128, respectively).  I used an overlap of 1 cell because I found that using 2 cells led to missed cars.  I also found that using smaller scales led to false positives.  Here are displays of the windows that I searched:
 
 ![297 windows at scale 1.5 (96x96)](./windows/windows_1.5.png)
 ![584 windows at scale 2 (128x128)](./windows/windows_2.png)
@@ -98,7 +98,7 @@ I implemented a sliding approach following what was presented in the lessons.  O
 
 #### 2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
-I used the `YCrCb` channels (all 3 of them), and I used HOG, color binning, and color histogram features.  I played around with the area within the image that was searched (`min_rows` and `max_rows`), as well as the `cells_per_steps` and `scales` parameters; see the method [`Frame.get_bboxes()`](./docs/project05.frame.html#project05.frame.Frame.get_bboxes).  Here are some examples:
+I used the `YCrCb` channels (all 3 of them), and I used HOG, color binning, and color histogram features.  I played around with the area within the image that was searched (`min_rows` and `max_rows`), as well as the `cells_per_steps` and `scales` parameters; see the method [`Frame.get_bboxes()`](https://jefflirion.github.io/udacity_car_nanodegree_project05/docs/project05.frame.html#project05.frame.Frame.get_bboxes).  Here are some examples:
 
 ![test1 boxes](./results/test1.png)
 ![test1 heatmap](./results/test1_heatmap.png)
@@ -124,12 +124,12 @@ Here's a [link to my video result](./project_video_cars.mp4)
 
 #### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
-The method [`Frame.find_cars`](./docs/project05.frame.html#project05.frame.Frame.find_cars) removes false positive and smooths the bouding boxes from frame to frame in the video.  When information about previous vehicles is provided, this function does two main things:
+The method [`Frame.find_cars`](https://jefflirion.github.io/udacity_car_nanodegree_project05/docs/project05.frame.html#project05.frame.Frame.find_cars) removes false positive and smooths the bouding boxes from frame to frame in the video.  When information about previous vehicles is provided, this function does two main things:
 
 1. Combine the heatmaps, adding up the current `Frame`'s heatmap and the heatmaps from the provided previous `Frame`s and then taking the average.  This heatmap is then thresholded using `heat_thresh = 2`.  The aim of this step was to remove false positives and also to recover missed detections.  
 2. I created a new heatmap using the bounding boxes for the car detections from the current `Frame` and from the provided previous `Frame`s, and I drew bounding boxes using the labels obtained by  applying `scipy.ndimage.measurements.label` to this new heatmap.  The aim of this step was to help smooth the bounding boxes from frame to frame.  
 
-I ran [`Frame.find_cars`](./docs/project05.frame.html#project05.frame.Frame.find_cars) on the project video, supplying each `Frame` with the previous 5 `Frame`s, including their car detections and heatmaps.  
+I ran [`Frame.find_cars`](https://jefflirion.github.io/udacity_car_nanodegree_project05/docs/project05.frame.html#project05.frame.Frame.find_cars) on the project video, supplying each `Frame` with the previous 5 `Frame`s, including their car detections and heatmaps.  
 
 
 
